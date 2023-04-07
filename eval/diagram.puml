@@ -1,0 +1,87 @@
+@startuml isco
+
+class Client {
+__Private data__
+  - civil: string
+  - name: string
+  - addressMail: string
+  - telephoneFixe: string
+  - telephoneMobile: string
+  - interlocuteurs: List<Interlocuteur>
+.. function ..
+  + addInterlocuteur(interlocuteur: Interlocuteur): void
+  + removeInterlocuteur(interlocuteur: Interlocuteur): void
+}
+
+class Interlocuteur {
+  __Private data__
+  - civil: string
+  - name: string
+  - addressMail: string
+  - telephoneFixe: string
+  - telephoneMobile: string
+}
+
+class Devis {
+  __Private data__
+  - offre
+  - title: string
+  - date: Date
+  - status: string
+  - numDevis: int
+  - numAffaire
+  - produits: List<Produit>
+  - prestations: List<Prestation>
+  - itc
+  .. function ..
+  + addProduct(): void
+  + delProduct(): void
+  + addPresta(): void
+  + delPresta(): void
+  + updateDevis(): void
+  + setITC(): void
+  + setClient(client: Client): void
+}
+
+class Produit {
+  __Private data__
+  - ref: string
+  - nom: string
+  - codeEAN: string
+  - fournisseur: string
+  - refConstructeur: string
+  - prixHT: double
+  - coef: double
+}
+
+class Prestation {
+  __Private data__
+  - refCatalogue: string
+  - nom: string
+  - codeEAN: string
+  - prestataire: string
+  - prixHT: double
+}
+class ResponsableITC {
+  __Private data__
+  - name: string
+  - email: string
+  - ITC: ITC[]
+  - devis: Devis[]
+}
+
+class ITC {
+  __Private data__
+  - firstname: string
+  - lastname: string
+  - devis: Devis[]
+}
+
+Client "1" *-- "*" Interlocuteur : a des interlocuteurs
+Client "0..*" -- "1" Devis : a des devis
+Devis "0..*" *-- "*" Produit : a des produits
+Devis "0..*" *-- "*" Prestation : a des prestations
+ResponsableITC "0..*" -- "1" ITC : a des ITC
+ITC "0..*" -- "1" Devis : a des devis
+
+@enduml
